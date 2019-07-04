@@ -23,9 +23,13 @@ class App extends Component {
         }
       ]
     }
+
+    this.SocketServer = undefined
   }
   componentDidMount() {
   console.log("componentDidMount <App />");
+  this.SocketServer = new WebSocket('ws://localhost:3001');
+  console.log('Connected to WebSocket Server')
   setTimeout(() => {
     console.log("Simulating incoming message");
     // Add a new message to the list of messages in the data store
@@ -47,13 +51,18 @@ class App extends Component {
     messages: [...this.state.messages, newMessage]
   })
 }
+
 handleInput = event => {
   event.preventDefault()
   // if it's the Enter key, send the username to app
   if (event.key === 'Enter') {
     this.updateMessage(event.target.value)
+    const msg = {type:"sendMessage", content: event.target.value, username: this.state.currentUser.name}
+    this.SocketServer.send(JSON.stringify(msg))
   }
 };
+
+
   render() {
     return (
      <div>

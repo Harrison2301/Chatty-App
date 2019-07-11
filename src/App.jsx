@@ -69,19 +69,49 @@ if(newMessage.type) {
 componentDidMount(){
   this.SocketServer.onmessage = this.handleNewMessage
   this.SocketServer.addEventListener('message', function (event) {
-    this.setState({
-      
-    })
+
 });
 }
 
-sendMessage = (value, type) => {
-  value.type = type;
-  this.SocketServer.send(JSON.stringify({
-    message:value
-  }))
-  this.sendNotification(value);
-}
+// sendMessage = (value, type) => {
+//   value.type = type;
+//   this.sendNotification(value);
+// }
+
+   // key down event for name
+   handleKeyPressName = (event) => {
+    if(event.key === "Enter") {
+      let oldName = this.state.currentUser.name;
+      console.log("hello")
+      if(this.state.currentUser !== this.state.username){
+        console.log(event.target.value)
+        const newNotification = {type:"postNotification",  username:event.target.value,oldName: oldName}
+        this.setState({currentUser: {name: event.target.value }})
+        this.SocketServer.send(JSON.stringify(newNotification))
+      }
+    }
+  }
+  //sets updated state of name
+
+
+  //key down event for message
+  handleKeyPressMessage = (event) => {
+    if(event.key === "Enter") {
+      console.log("test")
+      if(this.state.currentUser !== this.state.username){
+        this.updateName(this.state, "nameNotification");
+      }
+      // this.sendMessage(this.state, "msgNotification");
+      this.SocketServer.send(JSON.stringify(
+        {
+          username: this.state.currentUser.name,
+          content: event.target.value,
+          type: "newMessage"
+        }
+))
+  
+    }
+  }
 
 
   render() {
@@ -89,7 +119,7 @@ sendMessage = (value, type) => {
      <div>
        <Header/>
        <MessageList messages={this.state.messages} user={this.state.currentUser.name}/>
-       <ChatBar currentUser = {this.state.currentUser.name} updateName = {this.updateName} sendMessage={this.sendMessage}/>
+       <ChatBar changeUser={this.handleKeyPressName} message={this.handleKeyPressMessage} currentUser = {this.state.currentUser.name} updateName = {this.updateName} sendMessage={this.sendMessage}/>
      </div>
     );
   }

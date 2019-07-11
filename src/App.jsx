@@ -17,8 +17,8 @@ class App extends Component {
           type: 'newMessage',
         },
       ],
-
-      userCount: 0,
+      clientCount:0
+     
     };
     // New socket server
     this.SocketServer = new WebSocket('ws://localhost:3001');
@@ -51,7 +51,7 @@ sendNotification = (messaging) => {
    if (type === 'msgNotification') {
      value.type = 'newMessage';
    } else if (type === 'incomingNotification') {
-     value.type = 'incomingNotification';
+     value.type = 'incomingNotification'; 
    }
    const messagesOrg = this.state.messages;
    const messagesNew = [...messagesOrg, value];
@@ -68,7 +68,9 @@ handleNewMessage = (event) => {
 componentDidMount() {
   this.SocketServer.onmessage = this.handleNewMessage;
   this.SocketServer.addEventListener('message', (event) => {
-
+    const { counter } = JSON.parse(event.data)
+    console.log(counter)
+    this.setState({clientCount: counter})
   });
 }
 
@@ -105,7 +107,7 @@ componentDidMount() {
   render() {
     return (
       <div>
-        <Header />
+        <Header counter={this.state.clientCount}/>
         <MessageList messages={this.state.messages} user={this.state.currentUser.name} />
         <ChatBar changeUser={this.handleKeyPressName} message={this.handleKeyPressMessage} currentUser={this.state.currentUser.name} updateName={this.updateName} sendMessage={this.sendMessage} />
       </div>

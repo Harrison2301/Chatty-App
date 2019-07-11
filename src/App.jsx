@@ -41,27 +41,38 @@ updateName = (nameState, type) => {
   });
 }
 
-
- updateMessage = (value) => {
-  const newMessage = {
-    username: this.state.currentUser.name,
-    content: value,
-    id: uuidv1()
-  }
-  this.setState({
-    messages: [...this.state.messages, newMessage]
-  })
+sendNotification = messaging => {
+  this.SocketServer.send(JSON.stringify(messaging));
 }
 
-handleInput = event => {
-  event.preventDefault()
-  // if it's the Enter key, send the username to app
-  if (event.key === 'Enter') {
-    this.updateMessage(event.target.value)
-    const msg = {type:"sendMessage", content: event.target.value, username: this.state.currentUser.name}
-    this.SocketServer.send(JSON.stringify(msg))
+// update state with messageNew
+ addMessage = (value, type) => {
+  if(type === "msgNotification") {
+    value.type = "newMessage"
+  } else if (type === "incomingNotification"){
+    value.type = "incomingNotification";
   }
+  var messagesOrg = this.state.messages;
+  var messagesNew = [...messagesOrg, value];
+  this.setState({messages:messagesNew})
+ 
+}
+
+handleNewMessage = (event) => {
+var newMessage = JSON.parse(event.data)
+if(newMessage.type) {
+  this.addMessage(newMessage, newMessage.type)
+}
 };
+
+componentDidMount(){
+  this.SocketServer.onmessage = this.handleNewMessage
+}
+
+sendMessage = (value, type) => {
+  value.type = type;
+  this.sendNotification(value);
+}
 
 
   render() {
@@ -69,7 +80,7 @@ handleInput = event => {
      <div>
        <Header/>
        <MessageList messages={this.state.messages}/>
-       <ChatBar currentUser = {this.state.currentUser.name} updateName = {this.updateName}/>
+       <ChatBar currentUser = {this.state.currentUser.name} updateName = {this.updateName} sendMessage={this.sendMessage}/>
      </div>
     );
   }

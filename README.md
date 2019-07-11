@@ -13,5 +13,5 @@
 - websocket
 
 ## Getting Started
--install all dependencies using "npm install" command
--start server by running "npm start" command 
+- install all dependencies using "npm install" command
+- start server by running "npm start" command 

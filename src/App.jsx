@@ -12,7 +12,7 @@ class App extends Component {
       messages: [
         {
           username: "Bob",
-          content: "Welcome to Chatty!"
+          content: "Welcome to Chatty!",
           id: uuidv1(),
           type: "newMessage"
         }
@@ -29,6 +29,18 @@ class App extends Component {
   componentDidMount() {
   console.log("componentDidMount <App />");
 }
+
+//update name 
+updateName = (nameState, type) => {
+  //name update notification message
+  let nameNotification = `${this.state.currentUser.name ? this.state.currentUser.name : "Anonymous"}
+  has updated their name to ${nameState.username ? nameState.username : "Anonymous"}`;
+  this.sendNotification(nameNotification)
+  this.setState ({ currentUser: 
+    {name: nameState.username}
+  });
+}
+
 
  updateMessage = (value) => {
   const newMessage = {
@@ -57,7 +69,7 @@ handleInput = event => {
      <div>
        <Header/>
        <MessageList messages={this.state.messages}/>
-       <ChatBar currentUser = {this.state.currentUser.name}/>
+       <ChatBar currentUser = {this.state.currentUser.name} updateName = {this.updateName}/>
      </div>
     );
   }

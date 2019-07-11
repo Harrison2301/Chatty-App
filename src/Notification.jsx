@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 function Notification(props) {
-    return (
-        <div className="message-notification">
-            <span>{props.message}</span>
-            </div>
-    );
+  return (
+    <div className="message-notification">
+      <span>{props.message}</span>
+    </div>
+  );
 }
 
 export default Notification;

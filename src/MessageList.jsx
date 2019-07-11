@@ -8,7 +8,7 @@ function MessageList(props) {
       {props.messages.map(message => {
         console.log(message)
         if (message.type =='newMessage'){
-          return <Message key={message.id} message={message}/>
+          return <Message user={props.user} key={message.id} message={message}/>
         } else {
           return <Notification key={message.id} message={message.content}/>
         }

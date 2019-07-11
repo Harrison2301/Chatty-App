@@ -87,7 +87,7 @@ sendMessage = (value, type) => {
     return (
      <div>
        <Header/>
-       <MessageList messages={this.state.messages}/>
+       <MessageList messages={this.state.messages} user={this.state.currentUser.name}/>
        <ChatBar currentUser = {this.state.currentUser.name} updateName = {this.updateName} sendMessage={this.sendMessage}/>
      </div>
     );

@@ -1,47 +1,36 @@
 import React, {Component} from 'react';
 import Header from './Header.jsx';
 import MessageList from './MessageList.jsx';
-import Message from './Message.jsx';
 import ChatBar from './ChatBar.jsx';
-
+const uuidv1 = require('uuid/v1');
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      currentUser: {name: 'Bob'}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
         {
-          username: 'Bob',
-          content: 'Has anyone seen my marbles?',
-          id: 1
-        },
-        {
-          username: 'Anonymous',
-          content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.',
-          id: 2
+          username: "Bob",
+          content: "Welcome to Chatty!"
+          id: uuidv1(),
+          type: "newMessage"
         }
-      ]
+      ],
+      
+      userCount: 0
     }
+    // New socket server
+    this.SocketServer = new WebSocket('ws://localhost:3001');
+  console.log('Connected to WebSocket Server')
 
-    this.SocketServer = undefined
   }
+  
   componentDidMount() {
   console.log("componentDidMount <App />");
-  this.SocketServer = new WebSocket('ws://localhost:3001');
-  console.log('Connected to WebSocket Server')
-  setTimeout(() => {
-    console.log("Simulating incoming message");
-    // Add a new message to the list of messages in the data store
-    const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    const messages = this.state.messages.concat(newMessage)
-    // Update the state of the app component.
-    // Calling setState will trigger a call to render() in App and all child components.
-    this.setState({messages: messages})
-  }, 3000);
 }
+
  updateMessage = (value) => {
-  const uuidv1 = require('uuid/v1');
   const newMessage = {
     username: this.state.currentUser.name,
     content: value,
@@ -68,8 +57,7 @@ handleInput = event => {
      <div>
        <Header/>
        <MessageList messages={this.state.messages}/>
-       <ChatBar currentUser = {this.state.currentUser.name} 
-       handleInput = {this.handleInput}/>
+       <ChatBar currentUser = {this.state.currentUser.name}/>
      </div>
     );
   }

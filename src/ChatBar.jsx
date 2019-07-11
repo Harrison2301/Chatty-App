@@ -23,6 +23,7 @@ class ChatBar extends Component {
      this.setState({
        username: event.target.value
      })
+     th
    }
 
    //key down event for message
@@ -31,7 +32,7 @@ class ChatBar extends Component {
        if(this.props.currentUser !== this.state.username){
          this.props.updateName(this.state, "nameNotification");
        }
-       this.props.addMessage(this.state, "msgNotification");
+       this.props.sendMessage(this.state, "msgNotification");
        this.setState({
          content:""
        })

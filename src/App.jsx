@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "test"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
         {
           username: "Bob",
@@ -67,10 +67,18 @@ if(newMessage.type) {
 
 componentDidMount(){
   this.SocketServer.onmessage = this.handleNewMessage
+  this.SocketServer.addEventListener('message', function (event) {
+    this.setState({
+      
+    })
+});
 }
 
 sendMessage = (value, type) => {
   value.type = type;
+  this.SocketServer.send(JSON.stringify({
+    message:value
+  }))
   this.sendNotification(value);
 }
 

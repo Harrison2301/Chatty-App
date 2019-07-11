@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      currentUser: {name: "test"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
         {
           username: "Bob",
@@ -29,6 +29,7 @@ class App extends Component {
   componentDidMount() {
   console.log("componentDidMount <App />");
 }
+
 
 //update name 
 updateName = (nameState, type) => {

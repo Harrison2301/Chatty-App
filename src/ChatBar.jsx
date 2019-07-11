@@ -23,7 +23,6 @@ class ChatBar extends Component {
      this.setState({
        username: event.target.value
      })
-     th
    }
 
    //key down event for message

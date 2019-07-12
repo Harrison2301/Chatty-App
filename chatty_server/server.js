@@ -35,11 +35,10 @@ wss.on('connection', (ws) => {
       } = JSON.parse(data);
       console.log(content);
       if (type === 'newMessage') {
-        console.log();
         const newID = {
           id,
           content,
-          username: username || 'Anonymous',
+          username: username,
           type,
           counter:clientCount
         };
@@ -53,9 +52,7 @@ wss.on('connection', (ws) => {
           counter:clientCount
           
         };
-        wss.clients.forEach((users) => {
-          users.send(JSON.stringify(notif));
-        });
+            client.send(JSON.stringify(notif));
       }
     });
   });

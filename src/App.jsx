@@ -31,7 +31,7 @@ class App extends Component {
 
 
 // update name
-updateName = (nameState, type) => {
+updateName = (nameState) => {
   // name update notification message
   const nameNotification = `${this.state.currentUser.name ? this.state.currentUser.name : 'Anonymous'}
   has updated their name to ${nameState.username ? nameState.username : 'Anonymous'}`;
@@ -77,12 +77,13 @@ componentDidMount() {
    // key down event for name
    handleKeyPressName = (event) => {
      if (event.key === 'Enter') {
+       if(event.target.value === "" || event.target.value === this.state.currentUser.name){
+         alert("Please add a new user name")
+       } else {
        const oldName = this.state.currentUser.name;
-       console.log('hello');
-       if (this.state.currentUser !== this.state.username) {
          console.log(event.target.value);
-         const newNotification = { type: 'postNotification', username: event.target.value, oldName };
          this.setState({ currentUser: { name: event.target.value } });
+         const newNotification = { type: 'postNotification', username: event.target.value, oldName };
          this.SocketServer.send(JSON.stringify(newNotification));
        }
      }
@@ -91,16 +92,18 @@ componentDidMount() {
   // key down event for message
   handleKeyPressMessage = (event) => {
     if (event.key === 'Enter') {
-      console.log('test');
-      if (this.state.currentUser !== this.state.username) {
-        this.updateName(this.state, 'nameNotification');
-      }
+        if(event.target.value === ""){
+          alert("Please add text to message!")
+        } else {      
       this.SocketServer.send(JSON.stringify({
         username: this.state.currentUser.name,
         content: event.target.value,
         type: 'newMessage',
       }));
+      event.target.value = ""
     }
+  }
+
   }
 
 

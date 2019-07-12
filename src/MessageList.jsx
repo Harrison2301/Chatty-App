@@ -6,7 +6,6 @@ function MessageList(props) {
   return (
     <main className="messages">
       {props.messages.map((message) => {
-        console.log(message);
         if (message.type == 'newMessage') {
           return <Message user={props.user} key={message.id} message={message} />;
         }

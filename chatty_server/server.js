@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // server.js
 
 const express = require('express');

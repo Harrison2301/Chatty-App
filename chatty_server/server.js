@@ -10,7 +10,7 @@ const PORT = 3001;
 
 // Create a new express server
 const server = express()
-// Make the express server serve static assets (html, javascript, css) from the /public folder
+  // Make the express server serve static assets (html, javascript, css) from the /public folder
   .use(express.static('public'))
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${PORT}`));
 
@@ -23,8 +23,8 @@ const wss = new SocketServer({ server });
 let clientCount = 0;
 wss.on('connection', (ws) => {
   clientCount++
-  wss.clients.forEach(function (users){
-    users.send(JSON.stringify({counter:clientCount}))
+  wss.clients.forEach(function (users) {
+    users.send(JSON.stringify({ counter: clientCount }))
   })
   console.log(clientCount)
   console.log('Client connected');
@@ -41,7 +41,7 @@ wss.on('connection', (ws) => {
           content,
           username: username,
           type,
-          counter:clientCount
+          counter: clientCount
         };
         client.send(JSON.stringify(newID));
       } else if (type === 'postNotification') {
@@ -50,10 +50,10 @@ wss.on('connection', (ws) => {
           id,
           content: `${oldName} has updated their name to ${username}`,
           type: 'incomingNotification',
-          counter:clientCount
-          
+          counter: clientCount
+
         };
-            client.send(JSON.stringify(notif));
+        client.send(JSON.stringify(notif));
       }
     });
   });

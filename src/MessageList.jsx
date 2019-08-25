@@ -9,7 +9,7 @@ function MessageList(props) {
         if (message.type == 'newMessage') {
           return <Message user={props.user} key={message.id} message={message} />;
         }
-          return <Notification key={message.id} message={message.content} />;
+        return <Notification key={message.id} message={message.content} />;
       })
       }
 

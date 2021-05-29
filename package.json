@@ -47,7 +47,7 @@
     "react": "15.4.2",
     "react-dom": "15.4.2",
     "uuid": "^3.3.2",
-    "ws": "7.0.1"
+    "ws": "7.4.6"
   },
   "bugs": {
     "url": "https://github.com/Harrison2301/Chatty-App/issues"

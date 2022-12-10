@@ -42,7 +42,7 @@
     "webpack-dev-server": "2.3.0"
   },
   "dependencies": {
-    "express": "4.17.1",
+    "express": "4.17.3",
     "random-id-generator": "0.0.2",
     "react": "15.4.2",
     "react-dom": "15.4.2",
